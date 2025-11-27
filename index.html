@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Event Management - Home</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script defer src="js/auth.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+
+<header>
+  <nav id="navbar" class="navbar"></nav>
+</header>
+
+<main class="container">
+  <h1>Event Management Dashboard</h1>
+  <div class="tab-row">
+    <!-- Add Event -->
+    <section class="tab-panel" id="add-panel">
+      <h2>Add New Event</h2>
+      <form class="card">
+        <label>Event Title: <input type="text" required></label>
+        <label>Date: <input type="date" required></label>
+        <label>Location: <input type="text" required></label>
+        <label>Category: <input type="text"></label>
+        <label>Number of Seats: <input type="number" min="1" required></label>
+        <label>Description: <textarea rows="3" required></textarea></label>
+        <button type="submit">Add Event</button>
+      </form>
+    </section>
+
+    <!-- Edit Event -->
+    <section class="tab-panel" id="edit-panel">
+      <h2>Edit Existing Event</h2>
+      <form class="card">
+        <label>Event ID: <input type="text" placeholder="Enter ID to edit" required></label>
+        <label>New Title: <input type="text"></label>
+        <label>New Date: <input type="date"></label>
+        <label>New Location: <input type="text"></label>
+        <label>New Description: <textarea rows="3"></textarea></label>
+        <button type="submit">Save Changes</button>
+      </form>
+    </section>
+
+    <!-- Delete Event -->
+    <section class="tab-panel" id="delete-panel">
+      <h2>Delete Event</h2>
+      <form class="card">
+        <label>Event ID: <input type="text" placeholder="Enter ID to delete" required></label>
+        <button type="submit" style="background:#d9534f;">Delete</button>
+      </form>
+  </main>
+
+<footer>
+  <p>&copy; 2025 EventMgmt</p>
+</footer>
+
+</body>
+</html>
