@@ -147,3 +147,149 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 
 });
+// ************ Bido Work **********//
+// ===============================
+// Load from LocalStorage
+// ===============================
+let events = JSON.parse(localStorage.getItem("events")) || [];
+let registrations = JSON.parse(localStorage.getItem("registrations")) || [];
+
+function saveEvents() {
+  localStorage.setItem("events", JSON.stringify(events));
+}
+function saveRegistrations() {
+  localStorage.setItem("registrations", JSON.stringify(registrations));
+}
+
+
+// ===============================
+// AUTO ID
+// ===============================
+function generateID() {
+  return events.length ? events[events.length - 1].id + 1 : 1;
+}
+
+
+// ===================================================
+// 1️⃣ ADMIN → ADD EVENT (admin-dashboard.html)
+// ===================================================
+let eventForm = document.getElementById("event-form");
+
+if (eventForm) {
+  eventForm.addEventListener("submit", () => {
+    const fd = new FormData(eventForm);
+
+    const newEvent = {
+      id: generateID(),
+      title: fd.get("title"),
+      date: fd.get("date"),
+      location: fd.get("location"),
+      category: fd.get("category"),
+      description: fd.get("description"),
+      numberOfSeats: Number(fd.get("numberOfSeats"))
+    };
+
+    events.push(newEvent);
+    saveEvents();
+
+    document.getElementById("admin-message").textContent =
+      "Event added successfully!";
+    eventForm.reset();
+    loadAdminEvents();
+  });
+}
+
+
+// ===================================================
+// 2️⃣ ADMIN → SHOW EVENTS LIST FOR EDIT/DELETE
+// ===================================================
+function loadAdminEvents() {
+  const container = document.getElementById("admin-events");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  events.forEach(ev => {
+    container.innerHTML += `
+      <div class="event-card">
+        <h3>${ev.title}</h3>
+        <p>ID: ${ev.id}</p>
+        <p>${ev.date} - ${ev.location}</p>
+
+        <button onclick="editEvent(${ev.id})">Edit</button>
+        <button onclick="deleteEvent(${ev.id})" class="danger">Delete</button>
+      </div>
+    `;
+  });
+}
+
+loadAdminEvents();
+
+
+// ===================================================
+// 3️⃣ ADMIN → EDIT EVENT
+// ===================================================
+function editEvent(id) {
+  const ev = events.find(e => e.id === id);
+  if (!ev) return alert("Event not found");
+
+  // Fill form with values
+  eventForm.title.value = ev.title;
+  eventForm.date.value = ev.date;
+  eventForm.location.value = ev.location;
+  eventForm.category.value = ev.category;
+  eventForm.description.value = ev.description;
+  eventForm.numberOfSeats.value = ev.numberOfSeats;
+
+  eventForm.querySelector("button").textContent = "Save Changes";
+
+  eventForm.onsubmit = () => {
+    ev.title = eventForm.title.value;
+    ev.date = eventForm.date.value;
+    ev.location = eventForm.location.value;
+    ev.category = eventForm.category.value;
+    ev.description = eventForm.description.value;
+    ev.numberOfSeats = Number(eventForm.numberOfSeats.value);
+
+    saveEvents();
+    loadAdminEvents();
+
+    document.getElementById("admin-message").textContent =
+      "Event updated successfully!";
+
+    eventForm.reset();
+    eventForm.querySelector("button").textContent = "Add Event";
+
+    eventForm.onsubmit = () => false;
+    return false;
+  };
+}
+
+
+// ===================================================
+// 4️⃣ ADMIN → DELETE EVENT
+// ===================================================
+function deleteEvent(id) {
+  events = events.filter(e => e.id !== id);
+  saveEvents();
+  loadAdminEvents();
+  alert("Event deleted!");
+}
+// ===============================
+// AUTO DISPLAY EVENTS WHEN LOGGING IN
+// ===============================
+window.addEventListener("DOMContentLoaded", () => {
+  // If we are on the admin dashboard, load events automatically
+  if (document.getElementById("admin-events")) {
+    loadAdminEvents();
+  }
+});
+
+
+
+
+
+
+
+
+
