@@ -17,6 +17,10 @@
 <main class="container">
   <h1>Admin Dashboard</h1>
 
+	  <section class="admin-actions">
+	    <a href="#manage-registrations" class="button">Manage Event Registrations</a>
+	  </section>
+
   <section>
     <h2>Add / Edit Event</h2>
     <form id="event-form" onsubmit="return false;">
@@ -42,6 +46,46 @@
     <h2>Manage Events</h2>
     <div id="admin-events" class="events-grid"></div>
   </section>
+
+	  </section>
+
+  <section id="manage-registrations">
+    <h2>Manage Event Registrations</h2>
+    <p>List of pending event registrations will appear here for approval or rejection.</p>
+    <table id="registrations-table">
+      <thead>
+        <tr>
+          <th>Event Title</th>
+          <th>User Email</th>
+          <th>Registration Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Example Row - to be populated by logic -->
+        <tr>
+          <td>Tech Conference 2025</td>
+	          <td>user1@example.com</td>
+	          <td>2025-11-26</td>
+	          <td>
+	            <button class="approve-btn">Approve</button>
+	            <button class="reject-btn">Reject</button>
+	          </td>
+	        </tr>
+	        <tr>
+	          <td>Workshop on AI</td>
+	          <td>user2@example.com</td>
+	          <td>2025-11-27</td>
+	          <td>
+	            <button class="approve-btn">Approve</button>
+	            <button class="reject-btn">Reject</button>
+	          </td>
+	        </tr>
+	      </tbody>
+	    </table>
+	  </section>
+	</main>
+
 </main>
 
 <footer>
