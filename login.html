@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login - EventMgmt</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script defer src="js/auth.js"></script>
+</head>
+<body>
+
+<header>
+  <nav id="navbar" class="navbar"></nav>
+</header>
+
+<main class="container">
+  <h1>Login</h1>
+  <form id="login-form" onsubmit="return false;">
+    <label>Email: <input type="email" id="email" required></label>
+    <label>Password: <input type="password" id="password" required></label>
+    <button type="button" onclick="login()">Login</button>
+  </form>
+</main>
+
+<footer>
+  <p>&copy; 2025 EventMgmt</p>
+</footer>
+
+</body>
+</html>

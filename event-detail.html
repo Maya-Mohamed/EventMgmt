@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Event Details</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script defer src="js/auth.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+
+<header>
+  <nav id="navbar" class="navbar"></nav>
+</header>
+
+<main class="container">
+  <a href="events.html" class="back">&larr; Back to events</a>
+  <div id="event-detail" class="event-detail"></div>
+
+  <section class="register-panel">
+    <h3>Register for this event</h3>
+    <form id="register-form" onsubmit="return false;">
+      <label>Full name: <input type="text" name="fullname" required></label>
+      <label>Email: <input type="email" name="email" required></label>
+      <label>Number of seats: <input type="number" name="seats" min="1" value="1" required></label>
+      <button id="registerBtn">Register</button>
+    </form>
+    <div id="register-message" class="info"></div>
+  </section>
+
+</main>
+
+<footer>
+  <p>&copy; 2025 EventMgmt</p>
+</footer>
+
+</body>
+</html>

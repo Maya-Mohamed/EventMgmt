@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script defer src="js/auth.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body onload="protectPage('admin')">
+
+<header>
+  <nav id="navbar" class="navbar"></nav>
+</header>
+
+<main class="container">
+  <h1>Admin Dashboard</h1>
+
+  <section>
+    <h2>Add / Edit Event</h2>
+    <form id="event-form" onsubmit="return false;">
+      <label>Title: <input type="text" name="title" required></label>
+      <label>Date: <input type="date" name="date" required></label>
+      <label>Location: <input type="text" name="location" required></label>
+      <label>Category:
+        <select name="category" required>
+          <option value="">Select Category</option>
+          <option value="conference">Conference</option>
+          <option value="workshop">Workshop</option>
+          <option value="meetup">Meetup</option>
+        </select>
+      </label>
+      <label>Description: <textarea name="description"></textarea></label>
+      <label>Seats: <input type="number" name="numberOfSeats" min="0" value="50"></label>
+      <button>Add Event</button>
+    </form>
+    <div id="admin-message" class="info"></div>
+  </section>
+
+  <section>
+    <h2>Manage Events</h2>
+    <div id="admin-events" class="events-grid"></div>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2025 EventMgmt</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign Up - EventMgmt</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script defer src="js/auth.js"></script>
+</head>
+<body>
+
+<header>
+  <nav id="navbar" class="navbar"></nav>
+</header>
+
+<main class="container">
+  <h1>Sign Up</h1>
+  <form id="signup-form" onsubmit="return false;">
+    <label>Username: <input type="text" id="name" required></label>
+    <label>Email: <input type="email" id="email" required></label>
+    <label>Password: <input type="password" id="password" required></label>
+    <label>Confirm Password: <input type="password" id="confirmPassword" required></label>
+    <label>Admin Account? <input type="checkbox" id="is_admin"></label>
+    <button type="button" onclick="signUp()">Create Account</button>
+  </form>
+</main>
+
+<footer>
+  <p>&copy; 2025 EventMgmt</p>
+</footer>
+
+</body>
+</html>

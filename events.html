@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Events - Event Management</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script defer src="js/auth.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+
+<header>
+  <nav id="navbar" class="navbar"></nav>
+</header>
+
+<main class="container">
+  <h1>Events</h1>
+
+  <section class="search-panel">
+    <h2>Search / Filter Events</h2>
+    <form id="search-form" onsubmit="return false;">
+      <label>Search by ID or Title: <input type="text" id="q" placeholder="Event ID or title"></label>
+      <label>Date: <input type="date" id="date"></label>
+      <label>Location: <input type="text" id="location" placeholder="City, Venue..."></label>
+      <label>Category:
+        <select id="category">
+          <option value="">Any</option>
+          <option value="conference">Conference</option>
+          <option value="workshop">Workshop</option>
+          <option value="meetup">Meetup</option>
+        </select>
+      </label>
+      <label>Minimum seats: <input type="number" id="minSeats" min="0"></label>
+      <button id="searchBtn">Search</button>
+      <button id="clearBtn" type="button">Clear</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Events List</h2>
+    <div id="events-list" class="events-grid"></div>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2025 EventMgmt</p>
+</footer>
+
+</body>
+</html>
