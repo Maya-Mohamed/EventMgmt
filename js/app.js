@@ -285,6 +285,86 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// =========================
+// Menna’s part
+// =========================
+
+// Load events from localStorage, fallback to empty array
+function getEvents() {
+  const stored = localStorage.getItem("events_v1");
+  return stored ? JSON.parse(stored) : [];
+}
+
+// Render event cards dynamically inside #events-list
+function renderEvents(list) {
+  const container = document.getElementById("events-list");
+  if (!container) return; // If container not on page, skip
+
+  container.innerHTML = list.map(ev => `
+    <article class="event-card">
+      <h3>${ev.title} <small>(${ev.id})</small></h3>
+      <p>${ev.date} – ${ev.location}</p>
+      <p>Category: ${ev.category}</p>
+      <p>Seats: ${ev.numberOfSeats}</p>
+      <button class="details-btn" data-id="${ev.id}">Details</button>
+    </article>
+  `).join('');
+}
+
+// Apply filters based on user inputs
+function applyFilters() {
+  const q = document.getElementById("q").value.toLowerCase();
+  const date = document.getElementById("date").value;
+  const location = document.getElementById("location").value.toLowerCase();
+  const category = document.getElementById("category").value;
+  const minSeats = Number(document.getElementById("minSeats").value);
+
+  // Filter events array based on all inputs
+  let filtered = getEvents().filter(ev => {
+    if (q && !(ev.id.toLowerCase().includes(q) || ev.title.toLowerCase().includes(q))) return false;
+    if (date && ev.date !== date) return false;
+    if (location && !ev.location.toLowerCase().includes(location)) return false;
+    if (category && ev.category !== category) return false;
+    if (minSeats && ev.numberOfSeats < minSeats) return false;
+    return true;
+  });
+
+  // Render filtered events
+  renderEvents(filtered);
+}
+
+// Handle click on Details buttons (event delegation)
+document.addEventListener("click", e => {
+  if (e.target.classList.contains("details-btn")) {
+    const id = e.target.dataset.id;
+
+    // Save selected event ID in sessionStorage
+    sessionStorage.setItem("selectedEventID", id);
+
+    // Redirect to event-detail page
+    window.location.href = "event-detail.html";
+  }
+});
+
+// On page load, populate event detail if on event-detail.html
+window.addEventListener("DOMContentLoaded", () => {
+  const detailBox = document.getElementById("event-detail");
+  if (!detailBox) return; // Skip if not detail page
+
+  const id = sessionStorage.getItem("selectedEventID"); // Get selected event ID
+  const ev = getEvents().find(e => e.id === id); // Find event
+
+  if (!ev) return detailBox.textContent = "Event not found."; // Safety check
+
+  // Render event details
+  detailBox.innerHTML = `
+    <h2>${ev.title} <small>(${ev.id})</small></h2>
+    <p>${ev.date} – ${ev.location}</p>
+    <p>Category: ${ev.category}</p>
+    <p>${ev.description}</p>
+    <p>Seats: ${ev.numberOfSeats}</p>
+  `;
+});
 
 
 
