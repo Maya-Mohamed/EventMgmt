@@ -285,6 +285,35 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+
+
+// ===================================================
+// USER → DISPLAY ALL EVENTS (users-events.html)
+// ===================================================
+function loadUserEvents() {
+  const container = document.getElementById("user-events");
+  if (!container) return; // not on user page
+
+  container.innerHTML = "";
+
+  if (events.length === 0) {
+    container.innerHTML = "<p>No events available at the moment.</p>";
+    return;
+  }
+
+  events.forEach(ev => {
+    container.innerHTML += `
+      <div class="event-card">
+        <h3>${ev.title}</h3>
+        <p><strong>Date:</strong> ${ev.date}</p>
+        <p><strong>Location:</strong> ${ev.location}</p>
+        <p><strong>Category:</strong> ${ev.category}</p>
+        <p><strong>Description:</strong> ${ev.description}</p>
+        <p><strong>Seats:</strong> ${ev.numberOfSeats}</p>
+      </div>
+    `;
+  });
+}
 // =========================
 // SEARCH & FILTER EVENTS (Menna's part )
 // =========================
@@ -413,6 +442,17 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+// AUTO LOAD EVENTS FOR BOTH ADMIN & USERS
+window.addEventListener("DOMContentLoaded", () => {
+  if (document.getElementById("admin-events")) {
+    loadAdminEvents();  // admin page auto-load
+  }
+
+  if (document.getElementById("user-events")) {
+    loadUserEvents();   // user page auto-load
+  }
+});
+
 
 
 
