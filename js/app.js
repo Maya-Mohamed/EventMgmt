@@ -286,86 +286,133 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 // =========================
-// Menna’s part
+// SEARCH & FILTER EVENTS (Menna's part )
 // =========================
-
-// Load events from localStorage, fallback to empty array
-function getEvents() {
-  const stored = localStorage.getItem("events_v1");
-  return stored ? JSON.parse(stored) : [];
-}
 
 // Render event cards dynamically inside #events-list
 function renderEvents(list) {
-  const container = document.getElementById("events-list");
-  if (!container) return; // If container not on page, skip
+  const container = document.getElementById("events-list");
+  if (!container) return; // Skip if element not found
 
-  container.innerHTML = list.map(ev => `
-    <article class="event-card">
-      <h3>${ev.title} <small>(${ev.id})</small></h3>
-      <p>${ev.date} – ${ev.location}</p>
-      <p>Category: ${ev.category}</p>
-      <p>Seats: ${ev.numberOfSeats}</p>
-      <button class="details-btn" data-id="${ev.id}">Details</button>
-    </article>
-  `).join('');
+  container.innerHTML = list.map(ev => `
+    <article class="event-card">
+      <h3>${ev.title} <small>(${ev.id})</small></h3>
+      <p>${ev.date} – ${ev.location}</p>
+      <p>Category: ${ev.category}</p>
+      <p>Seats: ${ev.numberOfSeats}</p>
+      <button class="details-btn" data-id="${ev.id}">Details</button>
+    </article>
+  `).join('');
 }
 
-// Apply filters based on user inputs
+// Implement filters
 function applyFilters() {
-  const q = document.getElementById("q").value.toLowerCase();
-  const date = document.getElementById("date").value;
-  const location = document.getElementById("location").value.toLowerCase();
-  const category = document.getElementById("category").value;
-  const minSeats = Number(document.getElementById("minSeats").value);
+  // Get filter values from events.html inputs
+  const q = document.getElementById("q").value.toLowerCase(); 
+  const date = document.getElementById("date").value;
+  const location = document.getElementById("location").value.toLowerCase();
+  const category = document.getElementById("category").value;
+  const minSeats = Number(document.getElementById("minSeats").value || 0);
 
-  // Filter events array based on all inputs
-  let filtered = getEvents().filter(ev => {
-    if (q && !(ev.id.toLowerCase().includes(q) || ev.title.toLowerCase().includes(q))) return false;
-    if (date && ev.date !== date) return false;
-    if (location && !ev.location.toLowerCase().includes(location)) return false;
-    if (category && ev.category !== category) return false;
-    if (minSeats && ev.numberOfSeats < minSeats) return false;
-    return true;
-  });
+  // Filter events array based on all inputs 
+  let filtered = getEvents().filter(ev => {
+    if (q && !(ev.id.toLowerCase().includes(q) || ev.title.toLowerCase().includes(q))) return false;
+    if (date && ev.date !== date) return false;
+    if (location && !ev.location.toLowerCase().includes(location)) return false;
+    if (category && ev.category !== category) return false;
+    if (minSeats > 0 && ev.numberOfSeats < minSeats) return false;
+    
+    return true;
+  });
 
-  // Render filtered events
-  renderEvents(filtered);
+  // Render filtered events
+  renderEvents(filtered);
 }
 
-// Handle click on Details buttons (event delegation)
+// =========================
+// EVENT HANDLERS 
+// =========================
+
+// This listener handles the initial render and attaches Search/Clear handlers.
+document.addEventListener("DOMContentLoaded", () => {
+    // Initial load of all events if on the events list page
+    if (document.getElementById("events-list")) {
+        renderEvents(getEvents());
+    }
+
+    // Handle Search Button click 
+    const searchBtn = document.getElementById("searchBtn");
+    if (searchBtn) {
+        searchBtn.addEventListener('click', applyFilters);
+    }
+
+    // Handle Clear Button click 
+    const clearBtn = document.getElementById("clearBtn");
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            // Clear all input fields
+            document.getElementById('q').value = '';
+            document.getElementById('date').value = '';
+            document.getElementById('location').value = '';
+            document.getElementById('category').value = '';
+            document.getElementById('minSeats').value = '';
+            
+            // Re-render all events
+            renderEvents(getEvents());
+        });
+    }
+});
+
+// Handle "Details" button (save selected event to sessionStorage)
 document.addEventListener("click", e => {
-  if (e.target.classList.contains("details-btn")) {
-    const id = e.target.dataset.id;
+  if (e.target.classList.contains("details-btn")) {
+    const id = e.target.dataset.id;
 
-    // Save selected event ID in sessionStorage
-    sessionStorage.setItem("selectedEventID", id);
+    // Save ID in sessionStorage 
+    sessionStorage.setItem("selectedEventID", id);
 
-    // Redirect to event-detail page
-    window.location.href = "event-detail.html";
-  }
+    // Redirect to event-detail page
+    window.location.href = "event-detail.html";
+  }
 });
 
-// On page load, populate event detail if on event-detail.html
+
+
 window.addEventListener("DOMContentLoaded", () => {
-  const detailBox = document.getElementById("event-detail");
-  if (!detailBox) return; // Skip if not detail page
+  const detailBox = document.getElementById("event-detail");
+  if (!detailBox) return; // Skip if not detail page
 
-  const id = sessionStorage.getItem("selectedEventID"); // Get selected event ID
-  const ev = getEvents().find(e => e.id === id); // Find event
+  // Fetch ID from sessionStorage
+  const id = sessionStorage.getItem("selectedEventID"); 
+  const ev = getEvents().find(e => e.id === id); 
 
-  if (!ev) return detailBox.textContent = "Event not found."; // Safety check
+  if (!ev) return detailBox.textContent = "Event not found."; 
 
-  // Render event details
-  detailBox.innerHTML = `
-    <h2>${ev.title} <small>(${ev.id})</small></h2>
-    <p>${ev.date} – ${ev.location}</p>
-    <p>Category: ${ev.category}</p>
-    <p>${ev.description}</p>
-    <p>Seats: ${ev.numberOfSeats}</p>
-  `;
+  // Render event details 
+  detailBox.innerHTML = `
+    <h2>${ev.title} <small>(${ev.id})</small></h2>
+    <div class="meta">${ev.date} • ${ev.location} • ${ev.category} • Seats: ${ev.numberOfSeats}</div>
+    <p>${ev.description}</p>`;
+
+  
+  const regForm = document.getElementById('register-form');
+  if(regForm){
+    regForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const fd = new FormData(regForm);
+      const fullname = fd.get('fullname'), email = fd.get('email'), seats = parseInt(fd.get('seats'),10);
+      const messageEl = document.getElementById('register-message');
+      
+      if(!fullname || !email || seats<=0){ messageEl.textContent='Please fill valid details.'; return; }
+      
+      const regs = JSON.parse(localStorage.getItem('regs_v1')||'[]');
+      regs.push({eventId: ev.id, fullname, email, seats, status:'pending'});
+      localStorage.setItem('regs_v1', JSON.stringify(regs));
+      messageEl.textContent = 'Registration submitted (status: pending).';
+      regForm.reset();
+    });
+  }
 });
-
 
 
 
