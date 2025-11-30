@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manage Users</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script defer src="js/auth.js"></script>
+  <script defer src="js/app.js"></script>
+  <script defer src="js/app2.js"></script>
+</head>
+<body>
+  <header class="header">
+    <h1>Manage Users</h1>
+  </header>
+
+  <main class="container">
+    <form id="user-form" class="admin-forms">
+      <input type="hidden" name="id" value="">
+      <label>
+        Full Name:
+        <input type="text" name="fullname" placeholder="Full Name" required />
+      </label>
+      <label>
+        Email:
+        <input type="email" name="email" placeholder="Email" required />
+      </label>
+      <label>
+        Role:
+        <select name="role" required>
+          <option value="">Select Role</option>
+          <option value="admin">Admin</option>
+          <option value="user">User</option>
+        </select>
+      </label>
+      <button type="submit" id="user-form-submit">Add User</button>
+      <button type="button" id="user-form-cancel" style="display:none;">Cancel</button>
+    </form>
+
+    <section id="admin-users" class="tab-panel">
+  <table id="users-table" border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Users will be rendered here dynamically -->
+    </tbody>
+  </table>
+</section>
+
+    </section>
+  </main>
+</body>
+</html>
